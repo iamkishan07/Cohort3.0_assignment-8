@@ -1,0 +1,498 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body{
+    width: 100%;
+    height: 100%;
+}
+
+main{
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+}
+
+.page{
+    display: none;
+}
+#page-1{
+    display: block;
+}
+
+.container{
+    display: flex;
+    position: relative;
+}
+
+.login-pannel, .register-pannel{
+    width: 100%;
+    height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+}
+.login-card, .register-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 20px;
+    border-radius: 8px;
+    width: 320px;
+    height: 320px;
+    border: 1px solid black;
+}
+
+.login-card input, .register-card input, button{
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.login-card button{
+    background-color: rgb(0, 86, 179);
+    border: none;
+    color: white;
+}
+.register-card button{
+    background-color: #4CAF50;
+    border: none;
+}
+.login-top, .register-top{
+    text-align: center;
+}
+
+.mode{
+    display: flex;
+    justify-content: space-between;
+}
+
+#dark{
+    width: 40px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: black;
+    position: relative;
+    cursor: pointer;
+}
+
+#dark::before{
+    content: "";
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: 0.3s;
+}
+
+#dark.active{
+    background-color: #4CAF50;
+}
+
+#dark.active::before{
+    transform: translateX(20px);
+}
+
+body.dark-mode{
+    background-color: rgb(17, 24, 38);
+    color: white;
+}
+
+body.dark-mode aside,
+body.dark-mode .card,
+body.dark-mode .preferences,
+body.dark-mode .transaction, 
+body.dark-mode .graph-container,
+body.dark-mode form
+{
+    background-color: rgb(31, 42, 56);
+    color: white;
+}
+
+body.dark-mode .aside-bottom{
+    background-color: rgb(59, 130, 245);
+}
+
+body.dark-mode .bg{
+    background-color: rgb(17, 24, 38);
+    color: white;
+    padding: 10px;
+}
+
+body.dark-mode .search,
+body.dark-mode .search input,
+body.dark-mode #filter,
+body.dark-mode form input,
+body.dark-mode form select
+{
+    background-color: rgb(17, 24, 38);
+    color: white;
+}
+body.dark-mode #save{
+    background-color: white;
+    color: black;
+}
+
+
+
+
+body.dark-mode #clearAll{
+    background-color: white;
+}
+
+aside{
+    width: 280px;
+    height: 100Vh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border-right: 1px solid black;
+}
+
+.aside-top{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.title{
+    display: flex;
+    gap: 10px;
+}
+.title i{
+    font-size: 2rem;
+}
+.dashboard{
+    margin-top: 20px;
+}
+.sidebar{
+    display: flex;
+    gap: 10px;
+    transition: 0.2s ease-in;
+    margin-left: 10px;
+    padding: 8px 15px;
+}
+.sidebar:hover{
+    background-color: rgb(141, 141, 189);
+    color: rgb(9, 85, 185);
+    border-radius: 5px;
+}
+.aside-bottom{
+    display: flex;
+    gap: 10px;
+    padding: 12px 16px;
+    background-color: black;
+    color: white;
+    border-radius: 10px;
+}
+.form{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(43, 41, 41, 0.2);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+form{
+    width: 400px;
+    height: 450px;
+    background-color: white;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#close{
+    cursor: pointer;
+}
+.form-head{
+    display: flex;
+    justify-content: space-between;
+}
+#type, .des, #amount, #date, #category{
+    padding: 8px 10px;
+    border-radius: 5px;
+}
+.form-cen{
+    display: flex;
+    justify-content: space-between;
+}
+#save{
+    width: 100%;
+    padding: 8px 0px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+}
+
+
+
+.right-side{
+    width: 100%;
+}
+nav{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid black;
+}
+.nav-top{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.nav-head{
+    display: flex;
+    flex-direction:row;
+    gap: 5px;
+    padding: 5px 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+.heading{
+    padding: 20px;
+}
+.card-container{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.card{
+    width: 250px;
+    height: 120px;
+    padding: 20px;
+    border: 1px solid rgb(196, 193, 193);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.icon{
+    width: fit-content;
+    padding: 10px;
+    background-color: rgb(17, 208, 145, 0.3);
+    border-radius: 6px;
+}
+.card img{
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+}
+.center{
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    padding: 20px;
+}
+.stock{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+.clr{
+    width: 60px;
+    height: 15px;
+}
+.green{
+    background-color: green;
+}
+.red{
+    background-color: red;
+}
+.graph-container{
+    width: 70%;
+    height: 350px;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.chart{
+    width:98%;
+    height:200px;
+    display:flex;
+    border-bottom:2px solid #bdbdbd;
+    position:relative;
+    margin:20px;
+}
+
+.y-axis{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    text-align:right;
+    padding-right:10px;
+    color:#666;
+    font-size:14px;
+    border-right: 1px solid black;
+}
+
+.grid{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    position: relative;
+}
+
+.grid div{
+    border-top:1px solid #ddd;
+    width:70%;
+}
+
+.bars{
+    position:absolute;
+    bottom:0;
+    left:80px;
+    height: 200px;
+    display:flex;
+    align-items:flex-end;
+    gap:40px;
+    height:100%;
+}
+.bar{
+    width:40px;
+    height:0;
+    transition: height 0.3 ease;
+}
+.green{
+    background:green;
+}
+
+.red{
+    background:red;
+}
+
+.preferences{
+    width: 30%;
+    height: 150px;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.clear-all{
+    display: flex;
+    gap: 10px;
+    padding: 8px 15px;
+    background-color: rgb(139, 0, 0, 0.2);
+    border-radius: 6px;
+    color: darkred;
+    border: 1px solid darkred;
+}
+.transaction{
+    width: 67.5%;
+    margin-left: 20px;
+    min-height: 200px;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.find{
+    display: flex;
+    justify-content: space-between;
+}
+.search{
+    padding: 2px 20px;
+    border-radius: 20px;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+}
+.search input{
+    width: 300px;
+    padding: 8px 10px;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+}
+#filter{
+    width: 300px;
+    padding: 10px;
+    border-radius: 7px;
+}
+.data-head{
+    padding: 10px 0px;
+    border-bottom: 1px solid black;
+    padding: 10px 0px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+.list{
+    padding: 10px 0px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+.action{
+    display: flex;
+    gap: 20px;
+    font-size: 1.3rem;
+}
+#edit{
+    color: blue;
+}
+#remove{
+    color: darkred;
+}
+#page-2{
+    width: 100%;
+    padding: 20px;
+    display: none;
+    flex-direction: column;
+}
+
+.setting-panel{
+    margin-top: 20px;
+    width: 60vw;
+    height: 30vh;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+body.dark-mode .setting-panel{
+    background-color: rgb(31, 42, 56);
+    color: white;
+}
+.edit-setting{
+    display: flex;
+    justify-content: space-between;
+}
+.edit-setting input, select{
+    width: 22vw;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+
+.setting-panel button{
+    width: 8vw;
+    height: 3.5vh;
+    padding: 5px 8px;
+    border-radius: 5px;
+    border: none;
+    background-color: black;
+    color: white;
+}
