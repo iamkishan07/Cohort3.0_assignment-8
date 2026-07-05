@@ -146,6 +146,10 @@ body.dark-mode #clearAll{
     background-color: white;
 }
 
+#clearAll{
+    cursor: pointer;
+}
+
 aside{
     position: sticky;
     top: 0;
@@ -181,6 +185,7 @@ aside{
     transition: 0.2s ease-in;
     margin-left: 10px;
     padding: 8px 15px;
+    cursor: pointer;
 }
 .sidebar:hover{
     background-color: rgb(141, 141, 189);
@@ -194,6 +199,7 @@ aside{
     background-color: black;
     color: white;
     border-radius: 10px;
+    cursor: pointer;
 }
 .form{
     width: 100%;
@@ -337,7 +343,7 @@ nav{
 }
 .graph-container{
     width: 70%;
-    height: 350px;
+    height: fit-content;
     padding: 20px;
     border: 1px solid black;
     border-radius: 10px;

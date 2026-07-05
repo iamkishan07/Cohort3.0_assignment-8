@@ -19,6 +19,9 @@ const filter = document.getElementById("filter");
 const searchInput = document.querySelector(".search input");
 const totalTransactions = document.getElementById("totalTransactions");
 
+let userTransaction = JSON.parse(localStorage.getItem("transactions")) || [];
+let editIndex = -1;
+
 function setNavUser() {
     const currentUser = localStorage.getItem("currentUser");
 
@@ -29,19 +32,9 @@ function setNavUser() {
     }
 }
 
-
-
-
-let userTransaction = JSON.parse(localStorage.getItem("transactions")) || [];
-let editIndex = -1;
-
 function saveData() {
     localStorage.setItem("transactions", JSON.stringify(userTransaction));
 }
-
-
-
-
 
 const loginUser = document.querySelector("#loginUser");
 const loginPass = document.querySelector("#loginPassword");
@@ -78,7 +71,6 @@ showLogin.addEventListener("click", (e) => {
     loginPanel.style.display = "flex";
 });
 
-
 registerBtn.addEventListener("click", (e) => {
     e.preventDefault();
 
@@ -105,7 +97,6 @@ registerBtn.addEventListener("click", (e) => {
     registerPanel.style.display = "none";
     loginPanel.style.display = "flex";
 });
-
 
 loginBtn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -168,6 +159,22 @@ window.addEventListener("DOMContentLoaded", () => {
     setNavUser();
 });
 
+function showPage(id) {
+    pages.forEach(page => {
+        page.style.display = "none";
+    });
+
+    document.getElementById(id).style.display = "block";
+}
+
+document.getElementById("dashboard").addEventListener("click", () => showPage("page-1"));
+document.getElementById("set").addEventListener("click", () => showPage("page-2"));
+
+dark.addEventListener("click", () => {
+    dark.classList.toggle("active");
+    document.body.classList.toggle("dark-mode");
+});
+
 
 const ctx = document.getElementById("cashFlowChart");
 
@@ -211,34 +218,6 @@ const cashFlowChart = new Chart(ctx, {
         }
     }
 });
-
-const dateInput = document.getElementById("date");
-
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-
-    const formattedDate = `${yyyy}-${mm}-${dd}`;
-    dateInput.value = formattedDate;
-
-
-dark.addEventListener("click", () => {
-    dark.classList.toggle("active");
-    document.body.classList.toggle("dark-mode");
-});
-
-function showPage(id) {
-    pages.forEach(page => {
-        page.style.display = "none";
-    });
-
-    document.getElementById(id).style.display = "block";
-}
-
-document.getElementById("dashboard").addEventListener("click", () => showPage("page-1"));
-document.getElementById("set").addEventListener("click", () => showPage("page-2"));
-
 
 
 addTransaction.addEventListener("click", (e)=>{
@@ -349,6 +328,16 @@ form.addEventListener("submit", (e)=>{
     formOpen.style.display = 'none'
 })
 
+const dateInput = document.getElementById("date");
+
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+
+    const formattedDate = `${yyyy}-${mm}-${dd}`;
+    dateInput.value = formattedDate;
+
 
 function calculateTotal() {
 
@@ -384,7 +373,6 @@ searchInput.addEventListener("input", () => {
 });
 
 
-
 const nameInput = document.querySelector(".user");
 const currencySelect = document.querySelector("#currency");
 const saveBtn = document.querySelector(".setting-panel button");
@@ -408,7 +396,6 @@ window.addEventListener("DOMContentLoaded", () => {
     applyCurrency();
 });
 
-
 saveBtn.addEventListener("click", () => {
 
     settings.name = nameInput.value;
@@ -423,7 +410,6 @@ saveBtn.addEventListener("click", () => {
     applyCurrency();
 });
 
-
 function getCurrencySymbol() {
     switch (settings.currency) {
         case "usd": return "$";
@@ -434,7 +420,6 @@ function getCurrencySymbol() {
         default: return "$";
     }
 }
-
 
 function applyCurrency() {
 
@@ -451,7 +436,6 @@ function applyCurrency() {
     balance.textContent = getCurrencySymbol() + bal;
 }
 
-
 function getFilteredTransactions() {
     const value = filter.value;
 
@@ -465,6 +449,7 @@ function getFilteredTransactions() {
 
     return userTransaction;
 }
+
 function getSearchFilteredTransactions() {
     const searchText = searchInput.value.toLowerCase();
 
