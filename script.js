@@ -13,11 +13,11 @@ const dark = document.querySelector("#dark");
 const totalIncome = document.querySelector("#income")
 const totalBalance = document.querySelector("#balance");
 const totalExpense = document.querySelector("#expense");
-const balanceBar = document.querySelector("#balanceBar");
-const expenseBar = document.querySelector("#expenseBar");
-const yAxis = document.querySelector(".y-axis");
 const pages = document.querySelectorAll(".page")
 const navUser = document.querySelector("#navUser");
+const filter = document.getElementById("filter");
+const searchInput = document.querySelector(".search input");
+const totalTransactions = document.getElementById("totalTransactions");
 
 function setNavUser() {
     const currentUser = localStorage.getItem("currentUser");
@@ -38,6 +38,9 @@ let editIndex = -1;
 function saveData() {
     localStorage.setItem("transactions", JSON.stringify(userTransaction));
 }
+
+
+
 
 
 const loginUser = document.querySelector("#loginUser");
@@ -166,7 +169,58 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 
+const ctx = document.getElementById("cashFlowChart");
 
+const cashFlowChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: ["Income vs Expense"],
+        datasets: [
+            {
+                label: "Income",
+                data: [0],
+                backgroundColor: "#22c55e"
+            },
+            {
+                label: "Expense",
+                data: [0],
+                backgroundColor: "#ef4444"
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+
+        plugins: {
+            tooltip: {
+                enabled: true,
+
+
+                callbacks: {
+                    title: () => "Income vs Expense",
+                    label: (context) =>
+                        `${context.dataset.label}: ${getCurrencySymbol()}${context.raw}`
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+const dateInput = document.getElementById("date");
+
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+
+    const formattedDate = `${yyyy}-${mm}-${dd}`;
+    dateInput.value = formattedDate;
 
 
 dark.addEventListener("click", () => {
@@ -203,28 +257,40 @@ clearAll.addEventListener("click", () =>{
 })
 
 const ui = () => {
-    data.innerHTML = ` <div class="data-head">
-                            <p class="date">DATE</p>
-                            <p class="desc">DESCRIPTION</p>
-                            <p class="category">CATEGORY</p>
-                            <p class="amount">AMOUNT</p>
-                            <p class="action">ACTION</p>
-                        </div>`
-    userTransaction.forEach((elem, index) => {
-         data.innerHTML += ` <div class="list">
-                            <p class="date">${elem.date}</p>
-                            <p class="desc">${elem.description}</p>
-                            <p class="category">${elem.category}</p>
-                            <p class="amount">${elem.amount}</p>
-                            <div class="action">
-                                <i class="ri-pencil-line" onclick = "editBtn(${index})" id="edit"></i>
-                                <i class="ri-delete-bin-2-line" onclick="removeBtn(${index})" id="remove"></i>
-                            </div>
-                        </div>`
-    })
 
-}
+    const filtered = getFinalTransactions();
 
+    data.innerHTML = `
+        <div class="data-head">
+            <p class="date">DATE</p>
+            <p class="desc">DESCRIPTION</p>
+            <p class="category">CATEGORY</p>
+            <p class="amount">AMOUNT</p>
+            <p class="action">ACTION</p>
+        </div>
+    `;
+
+    filtered.forEach((elem, index) => {
+
+        const isIncome = elem.type === "income";
+
+        data.innerHTML += `
+        <div class="list">
+            <p class="date">${elem.date}</p>
+            <p class="desc">${elem.description}</p>
+            <p class="category">${elem.category}</p>
+
+            <p class="amount ${isIncome ? "income" : "expense"}">
+                ${isIncome ? "+" : "-"}${elem.amount}
+            </p>
+
+            <div class="action">
+                <i onclick="editBtn(${index})" class="ri-pencil-line"></i>
+                <i onclick="removeBtn(${index})" class="ri-delete-bin-2-line"></i>
+            </div>
+        </div>`;
+    });
+};
 ui()
 calculateTotal()
 
@@ -261,6 +327,7 @@ form.addEventListener("submit", (e)=>{
     if(type.trim() === "" || description.trim() === "" || amount.trim() === "" || date.trim() === "" || category.trim() === "") return;
 
     let obj = {
+        id: Date.now(),
         type,
         description,
         amount,
@@ -283,7 +350,7 @@ form.addEventListener("submit", (e)=>{
 })
 
 
-function calculateTotal(){
+function calculateTotal() {
 
     const income = userTransaction
         .filter(t => t.type === "income")
@@ -299,18 +366,22 @@ function calculateTotal(){
     totalExpense.textContent = expense;
     totalBalance.textContent = balance;
 
-    const maxValue = Math.max(income, expense, Math.abs(balance), 1);
+    totalTransactions.textContent = userTransaction.length;
 
-    yAxis.innerHTML = "";
 
-    for(let i = 10; i >= 0; i--){
-        yAxis.innerHTML += `<span>${Math.round(maxValue*i/10)}</span>`;
-    }
-
-    balanceBar.style.height = `${Math.abs(balance)/maxValue*200}px`;
-    expenseBar.style.height = `${expense/maxValue*200}px`;
+    cashFlowChart.data.datasets[0].data = [income];
+    cashFlowChart.data.datasets[1].data = [expense];
+    cashFlowChart.update();
 }
 
+filter.addEventListener("change", () => {
+    ui();
+    calculateTotal();
+});
+searchInput.addEventListener("input", () => {
+    ui();
+    calculateTotal();
+});
 
 
 
@@ -378,4 +449,55 @@ function applyCurrency() {
     income.textContent = getCurrencySymbol() + inc;
     expense.textContent = getCurrencySymbol() + exp;
     balance.textContent = getCurrencySymbol() + bal;
+}
+
+
+function getFilteredTransactions() {
+    const value = filter.value;
+
+    if (value === "income") {
+        return userTransaction.filter(t => t.type === "income");
+    }
+
+    if (value === "expense") {
+        return userTransaction.filter(t => t.type === "expense");
+    }
+
+    return userTransaction;
+}
+function getSearchFilteredTransactions() {
+    const searchText = searchInput.value.toLowerCase();
+
+    return userTransaction.filter(t => {
+        return (
+            t.description.toLowerCase().includes(searchText) ||
+            t.category.toLowerCase().includes(searchText) ||
+            t.amount.toString().includes(searchText)
+        );
+    });
+}
+
+function getFinalTransactions() {
+
+    let data = userTransaction;
+
+    const filterValue = filter.value;
+
+    if (filterValue === "income") {
+        data = data.filter(t => t.type === "income");
+    } else if (filterValue === "expense") {
+        data = data.filter(t => t.type === "expense");
+    }
+
+    const searchText = searchInput.value.toLowerCase();
+
+    data = data.filter(t => {
+        return (
+            t.description.toLowerCase().includes(searchText) ||
+            t.category.toLowerCase().includes(searchText) ||
+            t.amount.toString().includes(searchText)
+        );
+    });
+
+    return data;
 }

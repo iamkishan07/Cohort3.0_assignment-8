@@ -7,6 +7,7 @@
     <title>Assignment-8 </title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -101,7 +102,7 @@
                     <div class="card">
                         <i class="ri-stacked-view icon"></i>
                         <p>Total Transactions</p>
-                        <h2>0</h2>
+                        <h2 id="totalTransactions">0</h2>
                     </div>
                 </div>
 
@@ -109,45 +110,9 @@
                     <div class="graph-container">
                         <h2>Cash Flow Analysis</h2>
                         <div class="bg">
-                            <div class="stock">
-                                <div class="green clr"></div>
-                                <p>Income</p>
-                                <div class="red clr"></div>
-                                <p>Expense</p>
-                            </div>
-                            <div class="chart">
-                                <div class="y-axis">
-                                    <span>1.0</span>
-                                    <span>0.9</span>
-                                    <span>0.8</span>
-                                    <span>0.7</span>
-                                    <span>0.6</span>
-                                    <span>0.5</span>
-                                    <span>0.4</span>
-                                    <span>0.3</span>
-                                    <span>0.2</span>
-                                    <span>0.1</span>
-                                    <span>0</span>
-                                </div>
-
-                                <div class="grid">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-
-                                    <div class="bars">
-                                        <div class="bar green" id="balanceBar"></div>
-                                        <div class="bar red" id="expenseBar"></div>
-                                    </div>
-
-                                </div>
+                           
+                            <div class="chart-container">
+                            <canvas id="cashFlowChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -237,15 +202,15 @@
                 </div>
                 <p>Category</p>
                 <select name="category" id="category">
-                    <option value="select" disabled>Select Category</option>
-                    <option value="food">Food & Dining</option>
-                    <option value="">Shoping</option>
-                    <option value="recharge">Recharge & Bills</option>
-                    <option value="petrol">Petorl & Auto</option>
-                    <option value="utilities">Utilities</option>
-                    <option value="salary">Salary</option>
-                    <option value="entertainment">Entertainment</option>
-                    <option value="other">Other</option>
+                    <option value="Select" disabled>Select Category</option>
+                    <option value="Food & Dining">Food & Dining</option>
+                    <option value="Shoping">Shoping</option>
+                    <option value="Reacharge & Bills">Recharge & Bills</option>
+                    <option value="Petrol & Auto">Petorl & Auto</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Salary">Salary</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Other">Other</option>
                 </select>
                 <button id="save">Save Transaction</button>
             </form>
