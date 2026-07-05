@@ -147,6 +147,9 @@ body.dark-mode #clearAll{
 }
 
 aside{
+    position: sticky;
+    top: 0;
+    left: 0;
     width: 280px;
     height: 100Vh;
     background-color: white;
@@ -229,7 +232,7 @@ form{
     border-radius: 5px;
 }
 .list .category{
-    padding: 5px 15px;
+    padding: 3px 10px;
     background-color: rgb(0, 0, 0, 0.6);
     width: fit-content;
     border-radius: 10px;
@@ -424,7 +427,7 @@ nav{
     grid-template-columns: repeat(5, 1fr);
 }
 .list{
-    padding: 10px 0px;
+    padding: 8px 0px;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     font-size: 1.3rem;
@@ -433,7 +436,7 @@ nav{
 .ri-pencil-line{
     padding: 5px;
     color: blue;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 }
 .ri-pencil-line:hover{
     border-radius: 10px;
@@ -441,7 +444,7 @@ nav{
 }
 .ri-delete-bin-2-line{
     color: darkred;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 }
 .ri-delete-bin-2-line:hover{
     border-radius: 10px 20px;
